@@ -16,10 +16,13 @@ class ListContainer extends StatelessWidget {
                   "https://img.freepik.com/premium-photo/captivating-cartoon-characters-cute-kids-playful-boys-lovely-girls-digital-world_1142283-14301.jpg"),
             ),
             contentPadding: EdgeInsets.all(0),
-            title: Text("Ram Karki"),
+            title: Text(
+              "Ram Karki",
+              style: TextStyle(fontSize: 15),
+            ),
             subtitle: Text(
               "24 sep 2023",
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 11),
             ),
             trailing: IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
           ),

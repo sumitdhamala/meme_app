@@ -10,19 +10,18 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //     fit: BoxFit.cover,
-          //     opacity: 0.06,
-          //     image: NetworkImage(
-          //         "https://cdn.dribbble.com/users/4382458/screenshots/11010386/shot-cropped-1586535857030.png"),
-          //   ),
-          // ),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            opacity: 0.15,
+            image: AssetImage("assets/images/bubbles.jpg"),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -108,13 +107,13 @@ class SignUpScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don\'t have an account ?",
+                    "Already have an account ?",
                     style: TextStyle(color: grey),
                   ),
                   TextButton(
                       style: ButtonStyle(
                           overlayColor:
-                              MaterialStateProperty.all<Color>(Colors.white)),
+                              MaterialStateProperty.all<Color>(paleBlue)),
                       onPressed: () {
                         Navigator.pop(context);
                       },

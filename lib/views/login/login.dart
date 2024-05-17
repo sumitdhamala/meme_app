@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:meme_app/components/button.dart';
 import 'package:meme_app/constants/constants.dart';
 import 'package:meme_app/views/login/signup.dart';
+import 'package:meme_app/views/screens/home.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -10,19 +10,18 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //     fit: BoxFit.cover,
-          //     opacity: 0.06,
-          //     image: NetworkImage(
-          //         "https://cdn.dribbble.com/users/4382458/screenshots/11010386/shot-cropped-1586535857030.png"),
-          //   ),
-          // ),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            opacity: 0.15,
+            image: AssetImage("assets/images/bubbles.jpg"),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
           child: Column(
             children: [
               SizedBox(
@@ -66,7 +65,17 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: 30,
               ),
-              SignButton(name: "Sign in"),
+              InkWell(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ),
+                  );
+                },
+                child: SignButton(name: "Sign in"),
+              ),
               SizedBox(
                 height: 30,
               ),
@@ -80,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                   TextButton(
                       style: ButtonStyle(
                         overlayColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
+                            MaterialStateProperty.all<Color>(paleBlue),
                       ),
                       onPressed: () {
                         Navigator.push(

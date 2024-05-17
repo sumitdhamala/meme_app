@@ -63,6 +63,7 @@ flutter:
   assets:
     - assets/images/meme.png
     - assets/images/doodle.png
+    - assets/images/bubbles.jpg
 
   #   - images/a_dot_ham.jpeg
 

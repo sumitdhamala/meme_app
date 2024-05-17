@@ -1,6 +1,10 @@
+import 'package:dotted_separator/source/dotted_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:meme_app/components/listview.dart';
 import 'package:meme_app/constants/constants.dart';
 import 'package:meme_app/views/login/login.dart';
+import 'package:dotted_separator/dotted_separator.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key});
@@ -18,6 +22,15 @@ class HomePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.person,
+              size: 30,
+            ),
+          )
+        ],
         centerTitle: true,
       ),
       drawer: Drawer(
@@ -60,16 +73,14 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: FlutterLogo(
-              size: 100,
-            ),
-          ),
-        ],
+      body: ListView.builder(
+          itemCount: 5,
+          itemBuilder: ((context, index) {
+            return ListContainer();
+          })),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
       ),
     );
   }

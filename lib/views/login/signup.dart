@@ -99,7 +99,11 @@ class SignUpScreen extends StatelessWidget {
               SizedBox(
                 height: 30,
               ),
-              SignButton(name: "Sign Up"),
+              InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: SignButton(name: "Sign Up")),
               SizedBox(
                 height: 30,
               ),

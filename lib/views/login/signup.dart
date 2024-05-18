@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:meme_app/constants/constants.dart';
 
 import '../../components/button.dart';

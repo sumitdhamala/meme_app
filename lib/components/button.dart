@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SignButton extends StatelessWidget {
+  bool isPressed;
   String name;
-  SignButton({super.key, required this.name});
+  SignButton({super.key, required this.name, required this.isPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +13,12 @@ class SignButton extends StatelessWidget {
           color: Color.fromARGB(255, 24, 23, 23),
           borderRadius: BorderRadius.circular(10)),
       child: Center(
-        child: Text(
-          name,
-          style: TextStyle(color: Colors.white),
-        ),
+        child: !isPressed
+            ? Text(
+                name,
+                style: TextStyle(color: Colors.white),
+              )
+            : CircularProgressIndicator(),
       ),
     );
   }

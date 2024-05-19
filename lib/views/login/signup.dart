@@ -1,10 +1,51 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:meme_app/constants/constants.dart';
+import 'package:http/http.dart' as http;
 
 import '../../components/button.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  bool isPressed = false;
+  TextEditingController emailCntrl = TextEditingController();
+  TextEditingController nameCntrl = TextEditingController();
+  TextEditingController phoneCntrl = TextEditingController();
+  TextEditingController passwordCntrl = TextEditingController();
+
+  Future<void> addData() async {
+    var response = await http.post(Uri.parse("$url/register"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': emailCntrl.text,
+          'password': passwordCntrl.text,
+          'name': nameCntrl.text,
+          'phone': phoneCntrl.text
+        }));
+    var decodedResponse = jsonDecode(response.body);
+    if (response.statusCode == 201) {
+      isPressed = true;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.green,
+          content: Text("Account Created"),
+        ),
+      );
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(decodedResponse["message"]),
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +80,7 @@ class SignUpScreen extends StatelessWidget {
                 height: 30,
               ),
               TextFormField(
+                controller: nameCntrl,
                 decoration: InputDecoration(
                   hintText: "Name",
                   prefixIcon: Icon(
@@ -51,6 +93,7 @@ class SignUpScreen extends StatelessWidget {
                 height: 8,
               ),
               TextFormField(
+                controller: emailCntrl,
                 decoration: InputDecoration(
                   hintText: "Email",
                   prefixIcon: Icon(
@@ -63,6 +106,7 @@ class SignUpScreen extends StatelessWidget {
                 height: 8,
               ),
               TextFormField(
+                controller: phoneCntrl,
                 decoration: InputDecoration(
                   hintText: "Phone",
                   prefixIcon: Icon(
@@ -75,8 +119,9 @@ class SignUpScreen extends StatelessWidget {
                 height: 8,
               ),
               TextFormField(
+                controller: passwordCntrl,
                 decoration: InputDecoration(
-                  hintText: "Email",
+                  hintText: "Password",
                   prefixIcon: Icon(
                     Icons.email_outlined,
                     color: grey,
@@ -88,7 +133,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: "Password",
+                  hintText: "Confirm Password",
                   prefixIcon: Icon(
                     Icons.lock_outlined,
                     color: grey,
@@ -99,10 +144,13 @@ class SignUpScreen extends StatelessWidget {
                 height: 30,
               ),
               InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
+                  onTap: ()  {
+                     addData();
                   },
-                  child: SignButton(name: "Sign Up")),
+                  child: SignButton(
+                    name: "Sign Up",
+                    isPressed: isPressed,
+                  )),
               SizedBox(
                 height: 30,
               ),
@@ -116,7 +164,7 @@ class SignUpScreen extends StatelessWidget {
                   TextButton(
                       style: ButtonStyle(
                           overlayColor:
-                              MaterialStateProperty.all<Color>(paleBlue)),
+                              WidgetStateProperty.all<Color>(paleBlue)),
                       onPressed: () {
                         Navigator.pop(context);
                       },

@@ -16,6 +16,41 @@ class MemeUpload extends StatelessWidget {
           ),
         ),
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Post a new meme",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            SizedBox(height: 20),
+            Text("Caption the meme"),
+            SizedBox(height: 5),
+            TextField(
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Color.fromARGB(255, 230, 230, 230),
+                border: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2),
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Upload meme",
+              style: TextStyle(fontSize: 17),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all()
+              ),
+            )
+
+          ],
+        ),
+      ),
     );
   }
 }

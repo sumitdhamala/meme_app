@@ -1,135 +1,150 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:meme_app/components/button.dart';
 import 'package:meme_app/constants/constants.dart';
-import 'package:meme_app/provider/setting_provider.dart';
 import 'package:meme_app/views/login/signup.dart';
-import 'package:meme_app/views/screens/home.dart';
-import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
-class LoginScreen extends StatelessWidget {
+import '../screens/home.dart';
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool isPressed = false;
+  TextEditingController emailCntrl = TextEditingController();
+  TextEditingController passwordCntrl = TextEditingController();
+  Future<void> checkData() async {
+    var response = await http.post(Uri.parse("$url/login"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': emailCntrl.text,
+          'password': passwordCntrl.text,
+        }));
+    var decodedResponse = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      isPressed = true;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(decodedResponse["message"]),
+      ));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    TextEditingController emailCntrl = TextEditingController();
-    TextEditingController passwordCntrl = TextEditingController();
-    var prov = Provider.of<SettingProvider>(context, listen: false);
-
     return Scaffold(
-      body: Consumer<SettingProvider>(
-        builder: (context, value, child) {
-          return Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                opacity: 0.15,
-                image: AssetImage("assets/images/bubbles.jpg"),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            opacity: 0.15,
+            image: AssetImage("assets/images/bubbles.jpg"),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 120,
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
+              Text(
+                "Welcome Back,",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                "Sign in to continue",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: grey,
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              TextFormField(
+                controller: emailCntrl,
+                decoration: InputDecoration(
+                  hintText: "Email",
+                  prefixIcon: Icon(
+                    Icons.email_outlined,
+                    color: grey,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              TextFormField(
+                controller: passwordCntrl,
+                decoration: InputDecoration(
+                  hintText: "Password",
+                  prefixIcon: Icon(
+                    Icons.lock_outlined,
+                    color: grey,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              InkWell(
+                onTap: () {
+                  checkData();
+                },
+                child: SignButton(
+                  name: "Sign in",
+                  isPressed: isPressed,
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 120,
-                  ),
                   Text(
-                    "Welcome Back,",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    "Don't have an account ?",
+                    style: TextStyle(color: grey),
                   ),
-                  Text(
-                    "Sign in to continue",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: grey,
+                  TextButton(
+                    style: ButtonStyle(
+                      overlayColor: WidgetStateProperty.all<Color>(paleBlue),
                     ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  TextFormField(
-                    controller: emailCntrl,
-                    decoration: InputDecoration(
-                      hintText: "Email",
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                        color: grey,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFormField(
-                    controller: passwordCntrl,
-                    decoration: InputDecoration(
-                      hintText: "Password",
-                      prefixIcon: Icon(
-                        Icons.lock_outlined,
-                        color: grey,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await prov.getData();
-                      var email = emailCntrl.text;
-                      bool emailExists = value.data
-                          .any((element) => element["user"]["email"] == email);
-
-                      if (!emailExists) {
-                        print("Wrong email");
-                      } else {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ),
-                        );
-                      }
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignUpScreen(),
+                        ),
+                      );
                     },
-                    child: SignButton(name: "Sign in"),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don't have an account ?",
-                        style: TextStyle(color: grey),
-                      ),
-                      TextButton(
-                        style: ButtonStyle(
-                          overlayColor:
-                              MaterialStateProperty.all<Color>(paleBlue),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignUpScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "Sign up",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ],
+                    child: Text(
+                      "Sign up",
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ),
                 ],
               ),
-            ),
-          );
-        },
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:meme_app/components/listview.dart';
 import 'package:meme_app/constants/constants.dart';
 import 'package:meme_app/views/login/login.dart';
-import 'package:dotted_separator/dotted_separator.dart';
 import 'package:meme_app/views/screens/upload_meme.dart';
 
 class HomePage extends StatelessWidget {
